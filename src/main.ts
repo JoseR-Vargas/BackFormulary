@@ -4,12 +4,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  // Configurar CORS específicamente para tu frontend
+  // Configurar CORS para desarrollo local
   app.enableCors({
     origin: [
-      'https://frontformulary.netlify.app',
-      'http://localhost:3000', // Para desarrollo local
-      'http://localhost:5500', // Para Live Server
+      'http://localhost:5500',      // Live Server
+      'http://127.0.0.1:5500',     // Live Server (alternativo)
+      'http://localhost:3000',      // Desarrollo local
+      'http://localhost:8000',      // Python server
+      'https://frontformulary.netlify.app', // Producción
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
@@ -17,6 +19,6 @@ async function bootstrap() {
   
   await app.listen(process.env.PORT || 3000);
   console.log('🚀 Backend corriendo en puerto:', process.env.PORT || 3000);
-  console.log('🌐 CORS habilitado para:', 'https://frontformulary.netlify.app');
+  console.log('🌐 CORS habilitado para desarrollo local y producción');
 }
 bootstrap();
