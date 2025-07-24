@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { User, UserSchema } from './user.schema';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
+import { RecaptchaModule } from './recaptcha';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,6 +13,7 @@ dotenv.config();
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URI ||''),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    RecaptchaModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
