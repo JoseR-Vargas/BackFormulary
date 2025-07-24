@@ -7,6 +7,9 @@ export class User extends Document {
   @Prop({ required: true }) correo: string;
   @Prop({ required: true }) edad: string;
   @Prop({ required: true }) comida: string;
+  @Prop({ required: true }) direccion: string;
+  @Prop({ required: true }) esFeliz: string; // 'si' o 'no'
+  @Prop({ required: true }) horasSueno: string;
   @Prop({ required: true }) selfie: string; // base64
   @Prop({ default: Date.now }) fecha: Date;
 }
