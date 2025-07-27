@@ -10,10 +10,16 @@ export interface RecaptchaVerifyResponse {
 
 @Injectable()
 export class RecaptchaService {
-  private readonly secretKey = process.env.SECRET_KEY;
+  private readonly secretKey = process.env.RECAPTCHA_SECRET_KEY;
   private readonly verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
   async verifyRecaptcha(token: string, remoteIp?: string): Promise<boolean> {
+    // TEMPORAL: Permitir desarrollo local sin reCAPTCHA
+    if (token === 'local-development') {
+      console.log('⚠️ Modo desarrollo local - reCAPTCHA deshabilitado');
+      return true;
+    }
+
     if (!this.secretKey) {
       throw new HttpException(
         'reCAPTCHA secret key not configured',

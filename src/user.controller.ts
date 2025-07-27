@@ -10,12 +10,26 @@ export class UserController {
   @UseGuards(RecaptchaGuard)
   @RequireRecaptcha()
   async create(@Body() body: any) {
+    console.log('📝 Recibiendo datos del formulario:', {
+      nombre: body.nombre,
+      correo: body.correo,
+      edad: body.edad,
+      comida: body.comida,
+      selfieLength: body.selfie ? body.selfie.length : 0,
+      recaptchaResponse: body.recaptchaResponse ? 'present' : 'missing'
+    });
+    
     // Remove recaptchaResponse from body before saving to database
     const { recaptchaResponse, ...userData } = body;
     
-    const user = await this.userService.create(userData);
-    console.log('Usuario guardado:', user);
-    return user;
+    try {
+      const user = await this.userService.create(userData);
+      console.log('✅ Usuario guardado exitosamente:', user._id);
+      return user;
+    } catch (error) {
+      console.error('❌ Error guardando usuario:', error);
+      throw error;
+    }
   }
 
   @Get()
